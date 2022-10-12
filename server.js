@@ -5,7 +5,10 @@ const { animals } = require('./data/animals');
 const express = require('express');
 const PORT = process.env.PORT || 3001;
 const app = express();
+// Directs the js to the css and java script 
+app.use(express.static('public'));
 // parse incoming string or array data
+
 app.use(express.urlencoded({ extended: true }));
 // parse incoming JSON data
 app.use(express.json());
@@ -109,7 +112,19 @@ function filterByQuery(query, animalsArray) {
       res.json(animal);
     }
   });
-  
+
+  // gets html 
+  app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/index.html'));
+  });
+
+  //gets animal page
+
+  app.get('/animals', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/animals.html'));
+  });
+
+  //app.listen should always be last
   app.listen(PORT, () => {
     console.log(`API server now on port ${PORT}!`);
   });
